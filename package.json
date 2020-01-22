@@ -1,0 +1,21 @@
+{
+  "name": "barcode-server",
+  "version": "1.0.0",
+  "description": "server for applications ort barcode",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "Dima Boguzki",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mysql": "^2.18.0",
+    "nexmo": "^2.6.0"
+  }
+}
