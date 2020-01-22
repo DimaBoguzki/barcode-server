@@ -29,7 +29,7 @@ const nexmo = new Nexmo({
   });*/
 /**
  * reccive: string of id_student
- * send : if exist send objext with data of student, if not send null
+ * send : if exist send objext with data of student, if not send null df
  */
 app.get('/test',(req,res)=>{
   res.send(JSON.stringify("Connected"));
