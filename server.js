@@ -17,8 +17,8 @@ const nexmo = new Nexmo({
   apiSecret: process.env.NEXMO_API_SECRET
 })
 // create connection of mysql
-/*var con = mysql.createConnection({
-    host: process.env.HOST,
+const con = mysql.createConnection({
+    host: process.env.HOST_MYSQL,
     user: process.env.USER_MYSQL,
     password: process.env.PASSWORD_MYSQL,
     database: process.env.DB
@@ -26,7 +26,7 @@ const nexmo = new Nexmo({
   con.connect((err)=>{
     if (err) throw err;
     console.log("Connected MYSQL!: host "+process.env.HOST);
-  });*/
+  });
 /**
  * reccive: string of id_student
  * send : if exist send objext with data of student, if not send null df
