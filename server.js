@@ -1,9 +1,9 @@
 require('dotenv/config');
 const express = require('express');
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
 const Nexmo = require('nexmo');
 const bcrypt = require('bcryptjs');
+const supervisor = require('./server/supervisor');
 
 const PORT = process.env.PORT || 5001;
 const app = express();
@@ -11,22 +11,14 @@ const app = express();
 app.use(bodyParser.json({type:'application/json'}));
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use('/supervisor', supervisor);
+
 // create commection of nexmo sms
 const nexmo = new Nexmo({
   apiKey: process.env.NEXMO_API_KEY,
   apiSecret: process.env.NEXMO_API_SECRET
 })
-// create connection of mysql
-const con = mysql.createConnection({
-    host: process.env.HOST_MYSQL,
-    user: process.env.USER_MYSQL,
-    password: process.env.PASSWORD_MYSQL,
-    database: process.env.DB
-  });
-  con.connect((err)=>{
-    if (err) throw err;
-    console.log("Connected MYSQL!: host "+process.env.HOST);
-  });
+
 /**
  * reccive: string of id_student
  * send : if exist send objext with data of student, if not send null df
@@ -43,8 +35,9 @@ app.post('/students', (req, res) => {
     let sql = "select * from students where id_student = '"+id+"';";
     con.query(sql,(err, results,field)=>{
         if (err) throw error;
-        if(results.length!==0)
+        if(results.length!==0){
           res.send({student:results[0]});
+        }
         else
           res.send({student:null});
     });
