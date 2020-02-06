@@ -53,11 +53,16 @@ class SingIn extends DB{
                 +`VALUES('${objUser.id_supervisor}','${objUser.first_name}','${objUser.last_name}',`
                 +`'${objUser.phone}','${objUser.gender}','${objUser.user}','${hash}')`;
             this.con.query(sql, (err,res)=>{
+                const obj={};
                 if(err){
                     console.error(err);
-                    return callBack(false);
+                    obj.set=false;
+                    obj.msgError=err.sqlMessage;
+                    return callBack(obj);
                 };
-                return callBack(true);
+                obj.set=true;
+                obj.msgError="";
+                return callBack(obj);
             })
         });
     }

@@ -1,0 +1,163 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <style>
+            *{
+                overflow-x: hidden;
+                outline: none;
+            }
+            .wrapper{
+                display: flex;
+                justify-content: center;
+                align-items: stretch;
+                width: 100vw;
+                min-height: 100vh;
+                animation: fadeIn  2s;
+                background-color: azure;
+            }
+            .form{
+                direction: rtl;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                width: 100%;
+                margin-top: 20px;
+            }
+            input[type=text], input[type=number], input[type=password]{
+                padding: 10px;
+                margin: 5px;
+                font-size: 20px;
+                border: 1px solid black;
+                border-radius: 5px;
+            }
+            input[type=text]:hover, input[type=number]:hover, input[type=password]:hover{
+                border: 2px solid black;
+                transition: all 100ms linear;
+            }
+            .gender{
+                font-size: 22px;
+                padding: 10px;
+                margin: 5px;
+            }
+            @keyframes fadeIn {
+                from {opacity: 0;}
+                to {opacity: 1;}
+            }
+            input[type=submit]{
+                cursor: pointer;
+                width: 15vw;
+                height: 50px;
+                border: 1px solid black;
+                border-radius: 5px;
+                margin-top: 20px;
+                font-size: 20px;
+                background-color: whitesmoke;
+            }
+            input[type=submit]:hover{
+                background-color: gray;
+                box-shadow: 1px 1px 4px black;
+                transition: all 200ms linear;
+
+            }
+        </style>
+    </head>
+    <body>
+        <div class="wrapper">
+            <form action="http://localhost:5001/supervisor/register" method="POST" onsubmit="return checkInputs()">
+                <div class="form">
+                    <h1>רישום</h1>
+                    <input id="id_superviser" name="id_superviser" type="number" placeholder="תעודת זהות">
+                    <input id="first_name" name="first_name" type="text" placeholder="שם פרטי" name="input">
+                    <input id="last_name" name="last_name" type="text" placeholder="שם משפחה" name="input">
+                    <input id="phone" name="phone" type="number" placeholder="פלאפון" name="input">
+                    <div id="div-gender" class="gender">
+                        <span>זכר</span><input type="radio" name="gender" value="0"> 
+                        <span>נקבה</span><input type="radio" name="gender" value="1"> 
+                    </div>
+                    <input id="user" name="user" type="text" placeholder="שם משתמש" name="input">
+                    <input id="password" name="password" type="password" placeholder="סיסמא" name="input">
+                    <input id="pass_2" type="password" placeholder="חזור על הסיסמא" name="input">
+                    <input type="submit" value="שלח">
+                </div>
+            </form>
+        </div>
+    </body>
+    <script>
+        function checkInputs(){
+            let id_superviser = document.getElementById("id_superviser");
+            let first_name = document.getElementById("first_name");
+            let last_name = document.getElementById("last_name");
+            let phone = document.getElementById("phone");
+            let user = document.getElementById("user");
+            let password = document.getElementById("password");
+            let pass_2 = document.getElementById("pass_2");
+
+
+            let gender = document.getElementsByName("gender");
+            let genderDIV = document.getElementById("div-gender");
+            let flag=true;
+            
+            if(id_superviser.value===""){
+                id_superviser.style.border="2px solid red";
+                if(flag) flag=false;
+            }
+            else id_superviser.style.border="1px solid black";
+
+            if(first_name.value===""){
+                first_name.style.border="2px solid red";
+                if(flag) flag=false;
+            }
+            else first_name.style.border="1px solid black";
+
+            if(last_name.value===""){
+                last_name.style.border="2px solid red";
+                if(flag) flag=false;
+            }
+            else last_name.style.border="1px solid black";
+
+            // check if phone incalid
+            if(phone.value!==""){
+                if(phone.value.length!==10){
+                    phone.style.border="2px solid red";
+                    alert("המספר פלאפון אינו תקין");
+                    if(flag) flag=false;
+                } 
+                else phone.style.border="1px solid black";
+            } 
+            // check if user is valid
+            if(user.value==="" || inValidUser(user.value)==false){
+                    user.style.border="2px solid red";
+                    alert("משתמש יכול להכיל רק אותיות באנגלית");
+                    if(flag) flag=false;
+            } else user.style.border="1px solid black";
+            // check if password is valid
+            if(password.value==="" || isValidPassword(password.value)==false){
+                    password.style.border="2px solid red";
+                    alert("הסיסמא צריכה להכיל רק מספר או אותיות באנגלית וסימנים");
+                    if(flag) flag=false;
+            } else password.style.border="1px solid black";
+            // check if two password is equal
+            if(pass_2.value!==password.value){
+                pass_2.style.border="2px solid red";
+                alert("שני הסיסמאות לא תואמות");
+                if(flag) flag=false;
+            }else pass_2.style.border="1px solid black";
+            // check gender input
+            if(gender[0].checked || gender[1].checked){
+                genderDIV.style.border="";
+            }
+            else{
+                genderDIV.style.border="2px solid red";
+                if(flag) flag=false;
+            };
+            return flag;
+        }
+        function inValidUser(str){
+            return /^[a-zA-Z]+$/.test(str);
+        }
+        function isValidPassword(str){
+            return /^[a-zA-Z0-9?!&%$@]+$/.test(str); 
+        }
+    </script>
