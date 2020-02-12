@@ -1,17 +1,21 @@
 const mysql = require('mysql');
+const {errorLogs} = require('../log');
+/**
+ * MySql Conection....
+ */
 
-class DB {
-    constructor(){
-        this.con = mysql.createConnection({
-            host: process.env.HOST_MYSQL,
-            user: process.env.USER_MYSQL,
-            password: process.env.PASSWORD_MYSQL,
-            database: process.env.DB
-          });
-          this.con.connect((err)=>{
-            if (err) throw err;
-            console.log("Connected!");
-          });
-    }
-}
-module.exports = DB;
+connection = mysql.createConnection({
+    host: process.env.HOST_MYSQL,
+    user: process.env.USER_MYSQL,
+    password: process.env.PASSWORD_MYSQL,
+    database: process.env.DB
+});
+
+connection.connect((err)=>{
+  if (err){
+    errorLogs.writeErrorLog("Error DataBase Connection: ",err);
+    throw err;
+  }
+});
+
+module.exports = connection;

@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const Nexmo = require('nexmo');
 const RouteSupervisor = require('./server/routeSupervisor');
 const RouteExam = require('./server/routeExam');
-
+const log = require('./server/log');
 const PORT = process.env.PORT || 5001;
 const app = express();
 
